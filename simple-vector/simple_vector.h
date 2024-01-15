@@ -88,13 +88,15 @@ public:
         return size_ == 0;
     }
 
-    // Возвращает ссылку на элемент с индексом index
+     // Возвращает ссылку на элемент с индексом index
     Type& operator[](size_t index) noexcept {
+        assert(index < size_);
         return items_[index];
     }
 
     // Возвращает константную ссылку на элемент с индексом index
     const Type& operator[](size_t index) const noexcept {
+        assert(index < size_);
         return items_[index];
     }
 
@@ -280,9 +282,9 @@ public:
         --size_;
     }
 
-    // Удаляет элемент вектора в указанной позиции
+     // Удаляет элемент вектора в указанной позиции
     Iterator Erase(ConstIterator pos) {
-        assert(!IsEmpty());
+        assert(pos >= begin() && pos < end());
         std::move(Iterator(pos) + 1, end(), Iterator(pos));
         --size_;
         return Iterator(pos);
