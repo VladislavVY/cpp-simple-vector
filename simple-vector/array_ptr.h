@@ -24,6 +24,10 @@ public:
 
     // Запрещаем копирование
     ArrayPtr(const ArrayPtr&) = delete;
+    
+    ArrayPtr(ArrayPtr&& other) {
+        raw_ptr_ = std::exchange(other.raw_ptr_, nullptr);
+    }
 
     ~ArrayPtr() {
         delete[] raw_ptr_;
@@ -31,6 +35,11 @@ public:
 
     // Запрещаем присваивание
     ArrayPtr& operator=(const ArrayPtr&) = delete;
+    
+     ArrayPtr& operator=(ArrayPtr&& other) {
+        raw_ptr_ = std::exchange(other.raw_ptr_, nullptr);
+        return *this;
+    }
 
     // Прекращает владением массивом в памяти, возвращает значение адреса массива
     // После вызова метода указатель на массив должен обнулиться
